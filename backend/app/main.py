@@ -1,5 +1,10 @@
 """FastAPI entry point. Mounts a MAF agent as an AG-UI endpoint at /agent."""
 
+# Datadog APM + LLM Observability — imported FIRST so ddtrace.patch_all
+# runs before FastAPI / httpx / Anthropic SDK bind their client classes.
+# See app/dd_init.py — no-ops cleanly when DD_API_KEY is unset.
+from app import dd_init  # noqa: F401
+
 import os
 
 from agent_framework.ag_ui import add_agent_framework_fastapi_endpoint

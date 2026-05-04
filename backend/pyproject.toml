@@ -14,6 +14,11 @@ dependencies = [
     "fastapi>=0.115,<1.0",
     "uvicorn[standard]>=0.32,<1.0",
     "python-dotenv>=1.0,<2.0",
+    # Datadog instrumentation — pre-wired by the factory's Phase H so every
+    # generated POC ships observable. ddtrace auto-instruments FastAPI +
+    # httpx + asyncio; the LLMObs sub-package captures Anthropic SDK calls
+    # with prompt/completion redaction handled centrally in dd_init.py.
+    "ddtrace>=2.0,<3.0",
 ]
 
 [project.optional-dependencies]

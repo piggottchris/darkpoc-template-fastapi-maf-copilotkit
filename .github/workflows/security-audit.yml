@@ -58,7 +58,12 @@ jobs:
 
       - name: pip-audit (strict)
         working-directory: backend
-        run: pip-audit --strict
+        # Pass the project path so pip-audit reads pyproject.toml deps
+        # rather than the installed env. Env-mode under --strict fails
+        # on the local editable install (darkpoc-backend isn't on PyPI
+        # and is therefore unauditable). Project-mode still audits
+        # every declared dependency, including dev extras.
+        run: pip-audit --strict .
 
       - name: Trivy fs scan (high+critical)
         uses: aquasecurity/trivy-action@v0.36.0
